@@ -22,7 +22,7 @@ class HumanDetector:
         (boxes, _) = hog.detectMultiScale(
             image.get_image(), 
             winStride=self.win_stride, 
-            padding=self.padding = padding, 
+            padding=self.padding, 
             scale=self.scale, 
             hitThreshold=self.hit_threshold
         ) 
