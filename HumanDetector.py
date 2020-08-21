@@ -1,5 +1,5 @@
 import cv2
-from ImageForDetection import ImageForDetection
+from .ImageForDetection import ImageForDetection
    
 class HumanDetector:
     def __init__(
