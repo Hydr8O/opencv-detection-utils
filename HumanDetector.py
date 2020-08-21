@@ -13,6 +13,7 @@ class HumanDetector:
         self.padding = padding
         self.scale = scale
         self.hit_threshold = hit_threshold
+        self._boxes = []
         
         
     def detect_image(self, image):
@@ -31,3 +32,9 @@ class HumanDetector:
             image.draw_border_box(box, 'person', (0, 255, 0))
             
         return image
+    
+    def is_human(self):
+        if len(self._boxes) == 0:
+            return False
+        else:
+            return True
