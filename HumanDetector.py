@@ -25,7 +25,7 @@ class HumanDetector:
             scale=self._scale, 
         ) 
         
-        for box in boxes:
+        for box in self._boxes:
             image.draw_border_box(box, 'person', (0, 255, 0))
             
         return image
