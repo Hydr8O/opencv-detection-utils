@@ -7,12 +7,10 @@ class HumanDetector:
         win_stride=(8, 8), 
         padding=(16, 16), 
         scale=1.1, 
-        hit_threshold=.6
     ):
-        self.win_stride = win_stride
-        self.padding = padding
-        self.scale = scale
-        self.hit_threshold = hit_threshold
+        self._win_stride = win_stride
+        self._padding = padding
+        self._scale = scale
         self._boxes = []
         
         
@@ -20,12 +18,11 @@ class HumanDetector:
         hog = cv2.HOGDescriptor() 
         hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector()) 
         image = ImageForDetection(image)
-        (boxes, _) = hog.detectMultiScale(
+        (self._boxes, _) = hog.detectMultiScale(
             image.get_image(), 
-            winStride=self.win_stride, 
-            padding=self.padding, 
-            scale=self.scale, 
-            hitThreshold=self.hit_threshold
+            winStride=self._win_stride, 
+            padding=self._padding, 
+            scale=self._scale, 
         ) 
         
         for box in boxes:
