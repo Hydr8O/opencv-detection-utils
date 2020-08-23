@@ -28,7 +28,7 @@ class HumanDetector:
         for box in self._boxes:
             image.draw_border_box(box, 'person', (0, 255, 0))
             
-        return image
+        return image.get_image()
     
     def is_human(self):
         if len(self._boxes) == 0:
