@@ -38,10 +38,8 @@ class ImageForDetection:
     
     def draw_border_box(self, box, label, color, end_box_coordinates=False):
         FONT = cv2.FONT_HERSHEY_PLAIN
-        print(box)
         x, y, box_width, box_height = box
         top_left_coordinates = (x, y)
-        print(top_left_coordinates)
         if end_box_coordinates == False:
             end_x, end_y = (x + box_width, y + box_height)
         else:
