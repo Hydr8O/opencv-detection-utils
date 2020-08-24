@@ -12,13 +12,13 @@ class FaceDetector:
         crop_x, crop_y, crop_width, crip_height = crop
         image = ImageForDetection(image)
         cropped = image.crop(crop_x, crop_y, crop_width, crip_height)
-        (height, width) = cropped.get_shape()
-        blob = cropped.get_blob(mean=(104.0, 177.0, 123.0), size=(300, 300), swapRB=False, scalefactor=1.0)
+        (original_height, original_width) = image.get_shape()
+        blob = image.get_blob(mean=(104.0, 177.0, 123.0), size=(300, 300), swapRB=False, scalefactor=1.0)
         self._detector.setInput(blob)
         detections = self._detector.forward()
         self._filtered_boxes = []
         for i in range(0, detections.shape[2]):
-            box = (detections[0, 0, i, 3:7] * np.array([width, height, width, height])).astype('int')
+            box = (detections[0, 0, i, 3:7] * np.array([original_width, original_height, original_width, original_height])).astype('int')
             x, y, width, height = box
             difference_x = width - x
             difference_y = height - y
@@ -33,7 +33,7 @@ class FaceDetector:
             if (confidence > self._confidence):
                 self._boxes.append(box)
                 image.draw_border_box(box, 'face', (255, 0, 0), end_box_coordinates=True)
-        return image
+        return image.get_image()
                 
     def is_face(self):
         if len(self._boxes) == 0:
