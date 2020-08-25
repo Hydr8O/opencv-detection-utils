@@ -12,11 +12,11 @@ class FaceDetector:
         crop_x, crop_y, crop_width, crip_height = crop
         image = ImageForDetection(image)
         cropped = image.crop(crop_x, crop_y, crop_width, crip_height)
-        (original_height, original_width) = image.get_shape()
-        blob = image.get_blob(mean=(104.0, 177.0, 123.0), size=(300, 300), swapRB=False, scalefactor=1.0)
+        (original_height, original_width) = cropped.get_shape()
+        blob = cropped.get_blob(mean=(104.0, 177.0, 123.0), size=(300, 300), swapRB=False, scalefactor=1.0)
         self._detector.setInput(blob)
         detections = self._detector.forward()
-        self._filtered_boxes = []
+        self._boxes = []
         for i in range(0, detections.shape[2]):
             box = (detections[0, 0, i, 3:7] * np.array([original_width, original_height, original_width, original_height])).astype('int')
             x, y, width, height = box
@@ -29,13 +29,12 @@ class FaceDetector:
             box = [x, y, width, height]
             confidence = detections[0, 0, i, 2]
 
-            # If confidence > 0.5, show box around face
             if (confidence > self._confidence):
                 self._boxes.append(box)
                 image.draw_border_box(box, 'face', (255, 0, 0), end_box_coordinates=True)
         return image.get_image()
                 
-    def is_face(self):
+    def is_object(self):
         if len(self._boxes) == 0:
             return False
         else:
